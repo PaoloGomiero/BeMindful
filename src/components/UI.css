@@ -1,0 +1,297 @@
+:root {
+  --giallo: #F4C430;
+  --amaranto: #8B1E3F;
+  --marrone: #4A2C2A;
+}
+
+
+
+body {
+  background: var(--giallo);
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Serif", serif;
+}
+
+.ui-container {
+  animation: fadeIn 1.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.app-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--amaranto);
+}
+
+.app-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 1.8rem;
+  color: var(--amaranto);
+  opacity: 0.85;
+}
+
+
+.timer {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: var(--amaranto);
+}
+
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+
+.btn-amaranto {
+  background: var(--amaranto);
+  color: var(--giallo);
+}
+
+
+.btn-giallo {
+  background: var(--giallo);
+  color: var(--amaranto);
+}
+
+
+.buddha-double-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.buddha-img {
+  width: 120px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.breathing-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--amaranto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.inner-circle {
+  width: 70px;
+  height: 70px;
+  background: var(--giallo);
+  border-radius: 50%;
+}
+
+.animate-breath {
+  animation: breath 4s ease-in-out infinite;
+}
+
+@keyframes breath {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 44, 42, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  background: var(--amaranto);
+  color: var(--giallo);
+  padding: 24px;
+  border-radius: 16px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  animation: modalIn 0.2s ease-out;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+.modal-inputs {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.modal-inputs div {
+  flex: 1;
+}
+
+.modal-inputs label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.modal-inputs input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--giallo);
+  background: transparent;
+  color: var(--giallo);
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modal-inputs input::-webkit-outer-spin-button,
+.modal-inputs input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--giallo);
+  cursor: pointer;
+}
+
+
+.modal-buttons button:first-child {
+  background: var(--giallo);
+  color: var(--amaranto);
+}
+
+
+.modal-buttons button:last-child {
+  background: transparent;
+  color: var(--giallo);
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.home-title {
+  font-size: 2.6rem;
+  color: var(--amaranto);
+  margin-bottom: 0.5rem;
+}
+
+.home-subtitle {
+  font-size: 1.1rem;
+  color: var(--amaranto);
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.home-quote {
+  color: var(--amaranto);
+  font-style: italic;
+  margin-bottom: 3rem;
+  opacity: 0.8;
+}
+
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.home-buttons .btn-amaranto {
+  width: 220px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  color: var(--amaranto);
+  margin-bottom: 1rem;
+}
+
+.page-text {
+  color: var(--amaranto);
+  opacity: 0.85;
+  max-width: 600px;
+  line-height: 1.6;
+}
+.home-title,
+.home-subtitle,
+.home-quote {
+  color: var(--amaranto) !important;
+}
