@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
-import UI from "./components/UI";
+import UI from "./components/UI.jsx";
 import Settings from "./pages/Settings";
 
 export default function App() {
