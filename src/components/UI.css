@@ -86,6 +86,7 @@ body {
 
 .buddha-double-wrapper {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   gap: 3rem;
@@ -289,6 +290,28 @@ body {
   opacity: 0.85;
   max-width: 600px;
   line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+
+  .buddha-double-wrapper {
+    gap: 1rem;
+  }
+
+  .buddha-img {
+    width: 70px;
+  }
+
+  .breathing-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .inner-circle {
+    width: 50px;
+    height: 50px;
+  }
+
 }
 .home-title,
 .home-subtitle,
