@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { TimerContext } from "../context/TimerContext";
-import "./ui.css";
+import "./UI.css";
 
 function formatTime(totalSeconds) {
   const m = Math.floor(totalSeconds / 60);
