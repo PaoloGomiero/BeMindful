@@ -1,27 +1,67 @@
-# BeMindful - Meditation Web App
+# BeMindful – Simple Meditation App
 
-BeMindful is a minimalist meditation web application designed to help users take a mindful break, relax, and improve focus through guided meditation sessions.
-
-The project was created to practice React development, state management, user interaction, and responsive UI design.
-
----
+BeMindful is a minimalist meditation application built with **React + Vite**, designed to offer a calm and distraction-free experience. It includes a meditation timer, breathing animation, ambient audio, a starting/ending bell, and support for custom session durations.
 
 ## Features
 
-There's a programmable meditation time, as well as three standard timings, 5, 10 and 15 minutes. Timer can be paused and resumed, and stopped. A bell sound indicates the start and ending of the session.
----
+- Predefined meditation durations: 5, 10, 15 minutes  
+- Custom time input (minutes + seconds)  
+- Elapsed / Remaining time toggle  
+- Breathing animation synchronized with the session  
+- Ambient meditation sound (looped)  
+- Bell sound at start and end of session  
+- Volume control available in the **Settings** page  
+- Session automatically stops when navigating away from the meditation page  
 
-## Pages
+## Tech Stack
 
-### Home
-Landing page introducing the BeMindful experience and allowing users to start a meditation session.
+- React  
+- Vite 
+- CSS for layout and animations  
+- HTML Audio API for sound playback  
 
-### Meditation
-The main application page containing the meditation timer, controls, audio features, and breathing animation.
+## Project Structure
+rc/
+│
+├── components/
+│   ├── UI.jsx
+│   ├── UI.css
+│   └── Settings.jsx
+│
+├── context/
+│   └── TimerContext.jsx
+│
+├── pages/
+│   ├── Home.jsx
+│   └── About.jsx
+│
+└── assets/
+├── sounds/
+│   ├── meditation_sound.ogg
+│   └── bell.wav
+│
+└── images/
+└── Buddha.svg
 
-### About
-A short description of the project, its purpose, and implemented features.
 
----
+## Getting Started
+
+Install dependencies: npm install
+Run the development server: npm run dev
+Production Build: nm run build
+
+
+## Notes
+
+- Meditation audio starts automatically when a session begins.  
+- Navigating to another page stops the session and resets the timer.  
+- Volume can be adjusted from the **Settings** page.  
+- Custom time requires a value greater than zero.  
+
+## Links
+
+- Repository: (https://github.com/PaoloGomiero/BeMindful)
+
+
 
 

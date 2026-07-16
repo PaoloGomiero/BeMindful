@@ -5,78 +5,120 @@ export const TimerContext = createContext();
 export function TimerProvider({ children }) {
   const [seconds, setSeconds] = useState(0);
   const [duration, setDuration] = useState(null);
+
   const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const [enableBackground, setEnableBackground] = useState(true);
+  const [enableBell, setEnableBell] = useState(true);
+  const [volume, setVolumeState] = useState(0.4);
 
   const meditationAudio = useRef(null);
   const bellAudio = useRef(null);
 
-  // STARTING AUDIO
   useEffect(() => {
     meditationAudio.current = new Audio("/sounds/meditation_sound.ogg");
     meditationAudio.current.loop = true;
-    meditationAudio.current.volume = 0.4;
 
     bellAudio.current = new Audio("/sounds/bell.wav");
-    bellAudio.current.volume = 0.8;
+
+    meditationAudio.current.volume = volume;
+    bellAudio.current.volume = volume;
   }, []);
 
-  // TIMER
   useEffect(() => {
-    if (!isRunning) return;
+    if (meditationAudio.current) {
+      meditationAudio.current.volume = volume;
+    }
 
-    const interval = setInterval(() => {
-      setSeconds((prev) => prev + 1);
-    }, 1000);
+    if (bellAudio.current) {
+      bellAudio.current.volume = volume;
+    }
+  }, [volume]);
+
+  useEffect(() => {
+    let interval = null;
+
+    if (isRunning) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
 
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  // END CHECK
   useEffect(() => {
     if (duration !== null && seconds >= duration) {
       setIsRunning(false);
+      setIsPaused(false);
       setSeconds(0);
       setDuration(null);
 
       meditationAudio.current.pause();
       meditationAudio.current.currentTime = 0;
 
+      if (enableBell) {
+        bellAudio.current.currentTime = 0;
+        bellAudio.current.play().catch(() => {});
+      }
+    }
+  }, [seconds, duration, enableBell]);
+
+  const startSession = (totalSeconds) => {
+    setDuration(totalSeconds);
+    setSeconds(0);
+
+    setIsRunning(true);
+    setIsPaused(false);
+
+    if (enableBell) {
+      bellAudio.current.currentTime = 0;
       bellAudio.current.play().catch(() => {});
     }
-  }, [seconds, duration]);
 
-  const startSession = (minutes) => {
-    setDuration(minutes * 60);
-    setSeconds(0);
-    setIsRunning(true);
-
-    bellAudio.current.play().catch(() => {});
-
-    meditationAudio.current.currentTime = 0;
-    meditationAudio.current.play().catch(() => {});
+    if (enableBackground) {
+      meditationAudio.current.currentTime = 0;
+      meditationAudio.current.play().catch(() => {});
+    }
   };
 
   const pauseSession = () => {
     setIsRunning(false);
+    setIsPaused(true);
+
     meditationAudio.current.pause();
   };
 
   const resumeSession = () => {
-    if (duration !== null) {
+    if (duration !== null && isPaused) {
       setIsRunning(true);
-      meditationAudio.current.play().catch(() => {});
+      setIsPaused(false);
+
+      if (enableBackground) {
+        meditationAudio.current.play().catch(() => {});
+      }
     }
   };
 
   const endSession = () => {
     setIsRunning(false);
+    setIsPaused(false);
+
     setSeconds(0);
     setDuration(null);
 
     meditationAudio.current.pause();
     meditationAudio.current.currentTime = 0;
 
-    bellAudio.current.play().catch(() => {});
+    if (enableBell) {
+      bellAudio.current.currentTime = 0;
+      bellAudio.current.play().catch(() => {});
+    }
+  };
+
+  const setVolume = (value) => {
+    setVolumeState(value);
   };
 
   return (
@@ -85,10 +127,21 @@ export function TimerProvider({ children }) {
         seconds,
         duration,
         isRunning,
+        isPaused,
+
+        enableBackground,
+        enableBell,
+
+        setEnableBackground,
+        setEnableBell,
+
+        volume,
+        setVolume,
+
         startSession,
         pauseSession,
         resumeSession,
-        endSession,
+        endSession
       }}
     >
       {children}

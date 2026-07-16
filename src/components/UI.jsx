@@ -1,159 +1,263 @@
 import { useContext, useState } from "react";
 import { TimerContext } from "../context/TimerContext";
-import "./UI.css";
-
-function formatTime(totalSeconds) {
-  const m = Math.floor(totalSeconds / 60);
-  const s = totalSeconds % 60;
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
+import "../components/UI.css";
+import { Link } from "react-router-dom";
 
 export default function UI() {
   const {
     seconds,
-    duration,
     isRunning,
+    isPaused,
     startSession,
     pauseSession,
     resumeSession,
-    endSession,
+    endSession
   } = useContext(TimerContext);
 
-  const [showRemaining, setShowRemaining] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
+  const [customMin, setCustomMin] = useState("");
+  const [customSec, setCustomSec] = useState("");
+  const [error, setError] = useState("");
 
-  
-  const [showModal, setShowModal] = useState(false);
-  const [customMinutes, setCustomMinutes] = useState(0);
-  const [customSeconds, setCustomSeconds] = useState(0);
+  const handleStart = (minutes) => {
+    startSession(minutes * 60);
+  };
 
-  const remaining = duration ? duration - seconds : 0;
+  const handleCustomStart = () => {
+    const total =
+      Number(customMin || 0) * 60 +
+      Number(customSec || 0);
 
-  const startCustom = () => {
-    const total = Number(customMinutes) * 60 + Number(customSeconds);
-
-    if (!total || total <= 0) {
-      alert("Insert a valid time");
+    if (total <= 0) {
+      setError("Please enter a valid time.");
       return;
     }
 
-    startSession(total / 60);
-    setShowModal(false);
+    setError("");
+    startSession(total);
+    setShowCustom(false);
+    setCustomMin("");
+    setCustomSec("");
+  };
+
+  const formatTime = (sec) => {
+    const minutes = Math.floor(sec / 60);
+    const seconds = sec % 60;
+
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
-    <div className="ui-container">
+    <div className="page-container">
 
-      <h1 className="app-title">BeMindful</h1>
-      <h2 className="app-subtitle">A simple meditation experience</h2>
+      <h1 className="app-title">
+        BeMindful
+      </h1>
+
+      <p className="app-subtitle">
+        Find stillness. Return to your breath.
+      </p>
+
 
       <div className="buddha-double-wrapper">
-        <img src="/images/Buddha.svg" className="buddha-img" />
+
+        <img
+          src="/images/Buddha.svg"
+          alt="Buddha"
+          className="buddha-img"
+        />
 
         <div
-          className={`breathing-circle ${isRunning ? "animate-breath" : ""}`}
-          onClick={() => setShowRemaining((p) => !p)}
+          className={`breathing-circle ${
+            isRunning ? "animate-breath" : ""
+          }`}
         >
           <div className="inner-circle"></div>
         </div>
 
-        <img src="/images/Buddha.svg" className="buddha-img" />
+        <img
+          src="/images/Buddha.svg"
+          alt="Buddha"
+          className="buddha-img"
+        />
+
       </div>
+
 
       <div className="timer">
-        {!duration ? (
-          <span>Select meditation time</span>
-        ) : (
-          <span>
-            {showRemaining
-              ? `Remaining: ${formatTime(Math.max(0, remaining))}`
-              : `Elapsed: ${formatTime(seconds)}`}
-          </span>
-        )}
+        {(isRunning || isPaused)
+          ? formatTime(seconds)
+          : "Ready"}
       </div>
 
-      {/* CONTROLS */}
-      <div className="controls">
 
-        {duration === null && (
-          <>
-            <button className="btn btn-amaranto" onClick={() => startSession(5)}>
-              5 min
-            </button>
+      {!isRunning && !isPaused && (
+        <div className="controls">
 
-            <button className="btn btn-amaranto" onClick={() => startSession(10)}>
-              10 min
-            </button>
+          <button
+            className="btn btn-amaranto"
+            onClick={() => handleStart(5)}
+          >
+            5 min
+          </button>
 
-            <button className="btn btn-amaranto" onClick={() => startSession(15)}>
-              15 min
-            </button>
+          <button
+            className="btn btn-amaranto"
+            onClick={() => handleStart(10)}
+          >
+            10 min
+          </button>
 
-            <button className="btn btn-amaranto" onClick={() => setShowModal(true)}>
-              Custom time
-            </button>
-          </>
-        )}
+          <button
+            className="btn btn-amaranto"
+            onClick={() => handleStart(15)}
+          >
+            15 min
+          </button>
 
-        {duration !== null && (
-          <>
-            {isRunning ? (
-              <button className="btn btn-giallo" onClick={pauseSession}>
-                Pause
-              </button>
-            ) : (
-              <button className="btn btn-amaranto" onClick={resumeSession}>
-                Resume
-              </button>
-            )}
+          <button
+            className="btn btn-amaranto"
+            onClick={() => {
+              setError("");
+              setShowCustom(true);
+            }}
+          >
+            Custom
+          </button>
 
-            <button className="btn btn-giallo" onClick={endSession}>
-              End
-            </button>
-          </>
-        )}
+        </div>
+      )}
 
-      </div>
 
-      {/* MODAL */}
-      {showModal && (
+      {(isRunning || isPaused) && (
+        <div className="controls">
+
+          <button
+            className="btn btn-giallo"
+            onClick={
+              isRunning
+                ? pauseSession
+                : resumeSession
+            }
+          >
+            {isRunning ? "Pause" : "Resume"}
+          </button>
+
+
+          <button
+            className="btn btn-amaranto"
+            onClick={endSession}
+          >
+            End
+          </button>
+
+        </div>
+      )}
+
+
+
+      {!isRunning && !isPaused && showCustom && (
+
         <div className="modal-overlay">
+
           <div className="modal">
 
-            <h2>Custom time</h2>
+            <h3>
+              Custom Timer
+            </h3>
+
 
             <div className="modal-inputs">
 
               <div>
-                <label>Min</label>
+                <label>
+                  Minutes
+                </label>
+
                 <input
                   type="number"
                   min="0"
-                  value={customMinutes}
-                  onChange={(e) => setCustomMinutes(e.target.value)}
+                  value={customMin}
+                  onChange={(e) =>
+                    setCustomMin(e.target.value)
+                  }
                 />
+
               </div>
 
+
               <div>
-                <label>Sec</label>
+
+                <label>
+                  Seconds
+                </label>
+
                 <input
                   type="number"
                   min="0"
                   max="59"
-                  value={customSeconds}
-                  onChange={(e) => setCustomSeconds(e.target.value)}
+                  value={customSec}
+                  onChange={(e) =>
+                    setCustomSec(e.target.value)
+                  }
                 />
+
               </div>
 
             </div>
 
+
+            {error && (
+              <p
+                style={{
+                  color: "var(--giallo)",
+                  background: "rgba(0,0,0,0.25)",
+                  padding: "8px",
+                  borderRadius: "8px",
+                  marginTop: "10px"
+                }}
+              >
+                {error}
+              </p>
+            )}
+
+
             <div className="modal-buttons">
-              <button onClick={startCustom}>Start</button>
-              <button onClick={() => setShowModal(false)}>Cancel</button>
+
+              <button
+                onClick={handleCustomStart}
+              >
+                Start
+              </button>
+
+
+              <button
+                onClick={() =>
+                  setShowCustom(false)
+                }
+              >
+                Cancel
+              </button>
+
             </div>
 
           </div>
+
         </div>
+
       )}
+
+
+      <div style={{ marginTop: "2rem" }}>
+
+        <Link to="/">
+          <button className="btn btn-giallo">
+            Back
+          </button>
+        </Link>
+
+      </div>
+
 
     </div>
   );

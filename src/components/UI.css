@@ -313,8 +313,35 @@ body {
   }
 
 }
-.home-title,
-.home-subtitle,
-.home-quote {
-  color: var(--amaranto) !important;
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
+
+.settings-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.settings-section {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.settings-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.settings-slider {
+  width: 200px;
+}
+
+.settings-back {
+  margin-top: 2rem;
+}
+
