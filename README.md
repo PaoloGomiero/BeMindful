@@ -54,7 +54,7 @@ Production Build: nm run build
 ## Notes
 
 - Meditation audio starts automatically when a session begins.  
-- Navigating to another doesn't stop the session.  
+- Navigating to another page doesn't stop the session.  
 - Volume can be adjusted from the **Settings** page.  
 - Custom time requires a value greater than zero.  
 
