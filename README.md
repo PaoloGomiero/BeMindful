@@ -108,7 +108,27 @@ Invoke-RestMethod http://localhost:8080/api/status
 
 -Stop the application
 
+## Monitoring and Alerts
 
+# UptimeRobot
+
+UptimeRobot monitors the public BeMindful frontend:
+
+https://be-mindful-ten.vercel.app/
+
+The monitor reports whether the website is reachable. An alert may indicate that the website is unavailable or not responding as expected. The monitor status and incident details can be checked in the UptimeRobot dashboard.
+
+# Sentry
+
+Sentry collects frontend errors and displays them in its dashboard. Each event can provide details that help identify and investigate the cause of an error.
+
+A controlled test event was generated and verified on the public deployment. The temporary test page was then removed, while the Sentry integration remained active.
+
+# Interpreting alerts
+
+UptimeRobot and Sentry serve different purposes. UptimeRobot monitors website availability, while Sentry helps identify errors occurring inside the frontend application.
+
+When an alert is received, check the relevant dashboard, review the incident or error details, and investigate whether corrective action is needed. A successful CI run does not guarantee that the application will remain available or error-free after deployment.
 
 ## Repository
 
